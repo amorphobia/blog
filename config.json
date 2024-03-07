@@ -1,10 +1,10 @@
 {
-    "title":"Meekdai",
-    "displayTitle":"eekdai",
-    "subTitle":"童话是一种生活态度，仅此而已。",
-    "homeUrl":"https://blog.meekdai.com",
-    "avatarUrl":"https://meekdai.com/avatar.svg",
-    "faviconUrl":"https://meekdai.com/favicon.svg",
+    "title":"随便写写",
+    "displayTitle":"随便写写",
+    "subTitle":"没什么好写的",
+    "homeUrl":"https://blog.xuesong.io",
+    "avatarUrl":"https://raw.githubusercontent.com/amorphobia/blog/master/images/amorphobia.svg",
+    "faviconUrl":"https://raw.githubusercontent.com/amorphobia/blog/master/images/amorphobia.svg",
     "singlePage":[],
-    "GMEEK_VERSION":"last"
+    "GMEEK_VERSION":"main"
 }

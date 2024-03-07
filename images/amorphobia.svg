@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="800">
+	<defs>
+		<symbol id="e0">
+			<rect width="100" height="100" fill="rgb(254,123,95)" />
+		</symbol>
+		<symbol id="e1">
+			<rect width="100" height="100" fill="rgb(253,141,110)" />
+		</symbol>
+		<symbol id="e2">
+			<rect width="100" height="100" fill="rgb(251,110,86)" />
+		</symbol>
+		<symbol id="e3">
+			<rect width="100" height="100" fill="rgb(254,113,83)" />
+		</symbol>
+		<symbol id="e4">
+			<rect width="100" height="100" fill="rgb(254,236,213)" />
+		</symbol>
+		<symbol id="e5">
+			<rect width="100" height="100" fill="rgb(255,255,255)" />
+		</symbol>
+		<symbol id="e6">
+			<rect width="100" height="100" fill="rgb(3,44,196)" />
+		</symbol>
+		<symbol id="e7">
+			<rect width="100" height="100" fill="rgb(65,125,246)" />
+		</symbol>
+		<symbol id="e8">
+			<rect width="100" height="100" fill="rgb(254,179,142)" />
+		</symbol>
+	</defs>
+	<use xlink:href="#e0" x="0" y="0" />
+	<use xlink:href="#e1" x="100" y="0" />
+	<use xlink:href="#e1" x="200" y="0" />
+	<use xlink:href="#e0" x="300" y="0" />
+	<use xlink:href="#e2" x="400" y="0" />
+	<use xlink:href="#e2" x="500" y="0" />
+	<use xlink:href="#e1" x="600" y="0" />
+	<use xlink:href="#e1" x="700" y="0" />
+	<use xlink:href="#e1" x="0" y="100" />
+	<use xlink:href="#e0" x="100" y="100" />
+	<use xlink:href="#e2" x="200" y="100" />
+	<use xlink:href="#e2" x="300" y="100" />
+	<use xlink:href="#e2" x="400" y="100" />
+	<use xlink:href="#e2" x="500" y="100" />
+	<use xlink:href="#e2" x="600" y="100" />
+	<use xlink:href="#e1" x="700" y="100" />
+	<use xlink:href="#e2" x="0" y="200" />
+	<use xlink:href="#e2" x="100" y="200" />
+	<use xlink:href="#e2" x="200" y="200" />
+	<use xlink:href="#e2" x="300" y="200" />
+	<use xlink:href="#e2" x="400" y="200" />
+	<use xlink:href="#e2" x="500" y="200" />
+	<use xlink:href="#e2" x="600" y="200" />
+	<use xlink:href="#e2" x="700" y="200" />
+	<use xlink:href="#e2" x="0" y="300" />
+	<use xlink:href="#e3" x="100" y="300" />
+	<use xlink:href="#e4" x="200" y="300" />
+	<use xlink:href="#e3" x="300" y="300" />
+	<use xlink:href="#e3" x="400" y="300" />
+	<use xlink:href="#e4" x="500" y="300" />
+	<use xlink:href="#e2" x="600" y="300" />
+	<use xlink:href="#e2" x="700" y="300" />
+	<use xlink:href="#e3" x="0" y="400" />
+	<use xlink:href="#e5" x="100" y="400" />
+	<use xlink:href="#e6" x="200" y="400" />
+	<use xlink:href="#e3" x="300" y="400" />
+	<use xlink:href="#e4" x="400" y="400" />
+	<use xlink:href="#e6" x="500" y="400" />
+	<use xlink:href="#e5" x="600" y="400" />
+	<use xlink:href="#e2" x="700" y="400" />
+	<use xlink:href="#e3" x="0" y="500" />
+	<use xlink:href="#e5" x="100" y="500" />
+	<use xlink:href="#e7" x="200" y="500" />
+	<use xlink:href="#e4" x="300" y="500" />
+	<use xlink:href="#e4" x="400" y="500" />
+	<use xlink:href="#e7" x="500" y="500" />
+	<use xlink:href="#e5" x="600" y="500" />
+	<use xlink:href="#e2" x="700" y="500" />
+	<use xlink:href="#e3" x="0" y="600" />
+	<use xlink:href="#e8" x="100" y="600" />
+	<use xlink:href="#e4" x="200" y="600" />
+	<use xlink:href="#e4" x="300" y="600" />
+	<use xlink:href="#e4" x="400" y="600" />
+	<use xlink:href="#e4" x="500" y="600" />
+	<use xlink:href="#e8" x="600" y="600" />
+	<use xlink:href="#e2" x="700" y="600" />
+	<use xlink:href="#e3" x="0" y="700" />
+	<use xlink:href="#e4" x="100" y="700" />
+	<use xlink:href="#e4" x="200" y="700" />
+	<use xlink:href="#e4" x="300" y="700" />
+	<use xlink:href="#e4" x="400" y="700" />
+	<use xlink:href="#e4" x="500" y="700" />
+	<use xlink:href="#e4" x="600" y="700" />
+	<use xlink:href="#e2" x="700" y="700" />
+</svg>

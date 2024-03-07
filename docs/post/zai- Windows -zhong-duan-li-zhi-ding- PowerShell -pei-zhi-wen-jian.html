@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.org/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://raw.githubusercontent.com/amorphobia/blog/master/images/amorphobia.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="在 Windows 终端里指定 PowerShell 配置文件">
+<title>在 Windows 终端里指定 PowerShell 配置文件</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">在 Windows 终端里指定 PowerShell 配置文件</h1>
+<div class="title-right">
+    
+    <a href="https://blog.xuesong.io"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd" d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/amorphobia/blog/issues/6" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>问题</h2>
+<p>我在 Windows 里日常用的是 Windows Terminal 中的 PowerShell。这就有一个问题，一旦创建了<a href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.2" rel="nofollow">配置文件</a>，PowerShell 启动速度就会<a href="https://stackoverflow.com/questions/49053189/how-do-i-disable-personal-and-system-profiles-loading-time-message-on-powershell" rel="nofollow">很慢</a>，即使删除所有配置文件，启动速度也回不到从前。因此在最近一次重装系统后，我再也没搞过配置文件，我的 PowerShell 就一直保持秒开的速度。</p>
+<h2>想法</h2>
+<p>可是无配置文件的 PowerShell 的确是少了些方便，今天突发奇想，既然 PowerShell 自己读取配置很慢，那我能不能在启动它之后再指定一个配置文件，这个文件不在 PowerShell 默认的路径里，这样即使以后觉得速度太慢而删除它，也能恢复秒开。</p>
+<h2>思路</h2>
+<p>系统默认的配置文件路径分别是</p>
+<ul>
+<li><code class="notranslate">$PSHOME\Profile.ps1</code></li>
+<li><code class="notranslate">$PSHOME\Microsoft.PowerShell_profile.ps1</code></li>
+<li><code class="notranslate">$Home\[My ]DocumentsPowerShell\\Profile.ps1</code></li>
+<li><code class="notranslate">$Home\[My ]DocumentsPowerShell\\Microsoft.PowerShell_profile.ps1</code></li>
+</ul>
+<p>挺好，那我在用户目录下创建一个 <code class="notranslate">.profile.ps1</code> 文件作为我的配置文件，就不会触发 PowerShell 的启动加载了。那么问题就变成了：</p>
+<ol>
+<li>如何加载这个文件？</li>
+<li>如何在启动后自动加载这个文件？</li>
+<li>还有其他问题吗？</li>
+</ol>
+<h2>解决</h2>
+<p>中间的尝试略过的话，最后总结了一下<a href="#%E6%80%BB%E7%BB%93">解决方法</a>。</p>
+<h3>加载文件</h3>
+<p>由于我对 PowerShell 不熟悉，所以加载这个自定义的配置文件也算一个问题。在类 Unix 系统里加载 Shell 配置我是知道的，直接 <code class="notranslate">source &lt;file&gt;</code> 就成了。我来试试吧：</p>
+<div class="highlight highlight-source-powershell"><pre class="notranslate">PS C:\Users\amorphobia<span class="pl-k">&gt;</span> source <span class="pl-c1">$HOME</span>\.profile.ps1
+source : 无法将<span class="pl-s"><span class="pl-pds">“</span>source<span class="pl-pds">”</span></span>项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径
+正确，然后再试一次。
+所在位置 行:<span class="pl-c1">1</span> 字符: <span class="pl-c1">1</span>
+<span class="pl-k">+</span> source <span class="pl-c1">$HOME</span>\.profile.ps1
+<span class="pl-k">+</span> ~~~~~~
+    <span class="pl-k">+</span> CategoryInfo          : ObjectNotFound: (source:String) []<span class="pl-k">,</span> CommandNotFoundException
+    <span class="pl-k">+</span> FullyQualifiedErrorId : CommandNotFoundException</pre></div>
+<p>寄了呀！其实不试也猜得到，从来都没听说过 PowerShell 有 <code class="notranslate">source</code> 命令……那试试直接运行呢？</p>
+<div class="highlight highlight-source-powershell"><pre class="notranslate">PS C:\Users\amorphobia<span class="pl-k">&gt;</span> <span class="pl-c1">$HOME</span>\.profile.ps1
+所在位置 行:<span class="pl-c1">1</span> 字符: <span class="pl-c1">6</span>
+<span class="pl-k">+</span> <span class="pl-c1">$HOME</span>\.profile.ps1
+<span class="pl-k">+</span>      ~~~~~~~~~~~~~
+表达式或语句中包含意外的标记<span class="pl-s"><span class="pl-pds">“</span>\.profile.ps1<span class="pl-pds">”</span></span>。
+    <span class="pl-k">+</span> CategoryInfo          : ParserError: (:) []<span class="pl-k">,</span> ParentContainsErrorRecordException
+    <span class="pl-k">+</span> FullyQualifiedErrorId : UnexpectedToken</pre></div>
+<p>嗯……可能直接运行也不行吧？于是网上搜了一下，发现其实脚本是可以直接运行的，问题出现在这个 <code class="notranslate">$HOME</code> 环境变量，需要将其展开成完整的路径，才可以运行。那如果我不想展开呢？解决方案也有，就是使用 <a href="https://ss64.com/ps/call.html" rel="nofollow"><code class="notranslate">&amp;</code> 操作符</a>。赶快试试吧：</p>
+<div class="highlight highlight-source-powershell"><pre class="notranslate">PS C:\Users\amorphobia<span class="pl-k">&gt;</span> <span class="pl-k">&amp;</span> <span class="pl-c1">$HOME</span>\.profile.ps1
+PS C:\Users\amorphobia<span class="pl-k">&gt;</span></pre></div>
+<p>没有报错，而且配置生效了！撒花🎉🎉🎉</p>
+<h3>自动加载</h3>
+<p>由于我用的是 Windows 终端，能指定 PowerShell 启动时的参数，那么 PowerShell 应该也需要有类似 <code class="notranslate">sh -c &lt;cmd&gt;</code> 这样的命令，这回直接看看帮助吧：</p>
+<div class="highlight highlight-source-powershell"><pre class="notranslate">PS C:\Users\amorphobia<span class="pl-k">&gt;</span> powershell <span class="pl-k">-</span>h
+
+PowerShell[.<span class="pl-k">exe</span>] [<span class="pl-k">-</span><span class="pl-k">PSConsoleFile</span> <span class="pl-k">&lt;</span><span class="pl-k">文件</span><span class="pl-k">&gt;</span> <span class="pl-k">|</span> <span class="pl-k">-</span><span class="pl-k">Version</span> <span class="pl-k">&lt;</span><span class="pl-k">版本</span><span class="pl-k">&gt;</span>]
+    [<span class="pl-k">-</span><span class="pl-k">NoLogo</span>] [<span class="pl-k">-</span><span class="pl-k">NoExit</span>] [<span class="pl-k">-</span><span class="pl-k">Sta</span>] [<span class="pl-k">-</span><span class="pl-k">Mta</span>] [<span class="pl-k">-</span><span class="pl-k">NoProfile</span>] [<span class="pl-k">-</span><span class="pl-k">NonInteractive</span>]
+    [<span class="pl-k">-</span><span class="pl-k">InputFormat</span> {Text <span class="pl-k">|</span> XML}] [<span class="pl-k">-</span><span class="pl-k">OutputFormat</span> {Text <span class="pl-k">|</span> XML}]
+    [<span class="pl-k">-</span><span class="pl-k">WindowStyle</span> <span class="pl-k">&lt;</span><span class="pl-k">样式</span><span class="pl-k">&gt;</span>] [<span class="pl-k">-</span><span class="pl-k">EncodedCommand</span> <span class="pl-k">&lt;</span><span class="pl-k">Base64</span> <span class="pl-k">编码命令</span><span class="pl-k">&gt;</span>]
+    [<span class="pl-k">-</span><span class="pl-k">ConfigurationName</span> <span class="pl-k">&lt;</span><span class="pl-k">字符串</span><span class="pl-k">&gt;</span>]
+    [<span class="pl-k">-</span><span class="pl-k">File</span> <span class="pl-k">&lt;</span><span class="pl-k">文件路径</span><span class="pl-k">&gt;</span> <span class="pl-k">&lt;</span><span class="pl-k">参数</span><span class="pl-k">&gt;</span>] [<span class="pl-k">-</span><span class="pl-k">ExecutionPolicy</span> <span class="pl-k">&lt;</span><span class="pl-k">执行策略</span><span class="pl-k">&gt;</span>]
+    [<span class="pl-k">-</span><span class="pl-k">Command</span> { <span class="pl-k">-</span> <span class="pl-k">|</span> <span class="pl-k">&lt;</span>脚本块<span class="pl-k">&gt;</span> [<span class="pl-k">-</span><span class="pl-k">args</span> <span class="pl-k">&lt;</span><span class="pl-k">参数数组</span><span class="pl-k">&gt;</span>]
+                  <span class="pl-k">|</span> <span class="pl-k">&lt;</span>字符串<span class="pl-k">&gt;</span> [<span class="pl-k">&lt;</span><span class="pl-k">命令参数</span><span class="pl-k">&gt;</span>] } ]
+......</pre></div>
+<p>诶，有个 <code class="notranslate">-Command</code> 参数，讲了啥呢？</p>
+<div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-k">-</span>Command
+    执行指定的命令(和任何参数)，就好像它们是
+    在 Windows PowerShell 命令提示符下键入的一样，然后退出，除非
+    指定了 NoExit。Command 的值可以为 <span class="pl-s"><span class="pl-pds">"</span>-<span class="pl-pds">"</span></span>、字符串或
+    脚本块。
+
+    如果 Command 的值为 <span class="pl-s"><span class="pl-pds">"</span>-<span class="pl-pds">"</span></span>，则从标准输入中读取
+    命令文本。
+
+    如果 Command 的值为脚本块，则脚本块必须
+    用大括号({})括起来。只有在 Windows PowerShell 中运行 <span class="pl-c1">PowerShell.exe</span> 时，
+    才能指定脚本块。脚本块的结果将作为反序列化的 XML 对象
+    (而非活动对象)返回到父 Shell。
+
+    如果 Command 的值为字符串，则 Command 必须是命令中的
+    最后一个参数，因为在命令后面键入的所有字符
+    都将解释为命令参数。
+
+    若要编写运行 Windows PowerShell 命令的字符串，请使用以下格式:
+        <span class="pl-s"><span class="pl-pds">"</span>&amp; {&lt;命令&gt;}<span class="pl-pds">"</span></span>
+    其中，引号表示一个字符串，调用运算符(<span class="pl-k">&amp;</span>)
+    导致执行命令。</pre></div>
+<p>哎呀，帮助里就提示了用 <code class="notranslate">&amp;</code> 来运行命令。好的，加到 Windows 终端的设置里吧！</p>
+<div class="highlight highlight-source-json"><pre class="notranslate"><span class="pl-ii">...</span>
+    <span class="pl-ent">"profiles"</span>: 
+    {
+        <span class="pl-ent">"defaults"</span>: {},
+        <span class="pl-ent">"list"</span>: 
+        [
+            {
+                <span class="pl-ii">...</span>
+                <span class="pl-ent">"commandline"</span>: <span class="pl-s"><span class="pl-pds">"</span>powershell.exe -Command <span class="pl-cce">\"</span>&amp; $HOME<span class="pl-cce">\\</span>.profile.ps1<span class="pl-cce">\"</span><span class="pl-pds">"</span></span>,
+                <span class="pl-ii">...</span>
+            },
+            <span class="pl-ii">...</span>
+        ]
+    },
+<span class="pl-ii">...</span></pre></div>
+<p>保存，关掉 Windows 终端，再启动。咦，窗口闪了一下就没了，怎么回事呢？原来还不行，有其他问题呀。</p>
+<h3>其他问题</h3>
+<p>想想 <code class="notranslate">sh -c &lt;cmd&gt;</code> 这个命令，也是运行完成就退出吧，要想运行之后进入交互模式，还得用 <code class="notranslate">sh -ic &lt;cmd&gt;</code> 才行。那么 PowerShell 呢？看看刚才的帮助：</p>
+<div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-k">-</span>NoExit
+    运行启动命令后不退出。</pre></div>
+<p>就它了！在 Windows 终端的设置里把这玩意儿加上</p>
+<div class="highlight highlight-source-json"><pre class="notranslate"><span class="pl-ii">...</span>
+    <span class="pl-ent">"profiles"</span>: 
+    {
+        <span class="pl-ent">"defaults"</span>: {},
+        <span class="pl-ent">"list"</span>: 
+        [
+            {
+                <span class="pl-ii">...</span>
+                <span class="pl-ent">"commandline"</span>: <span class="pl-s"><span class="pl-pds">"</span>powershell.exe -NoExit -Command <span class="pl-cce">\"</span>&amp; $HOME<span class="pl-cce">\\</span>.profile.ps1<span class="pl-cce">\"</span><span class="pl-pds">"</span></span>,
+                <span class="pl-ii">...</span>
+            },
+            <span class="pl-ii">...</span>
+        ]
+    },
+<span class="pl-ii">...</span></pre></div>
+<p>关掉再试试，成了！</p>
+<p>回想一下我最初的需求，万一这东西速度慢了，不想要了，会不会和默认路径的配置文件删除后一样，速度恢复不了？既然我只是在 Windows 终端里干了这事，那就应该不会影响 PowerShell 本身吧。试了试不用 Windows 终端，直接启动 PowerShell 本体，速度依然飞快。嗯，目的达成了。</p>
+<h2>总结</h2>
+<p>想达成我的目的只需两步：</p>
+<ol>
+<li>创建一个自定义配置文件，不要放到 PowerShell 默认的路径，比如我的文件是 <code class="notranslate">C:\Users\amorphobia\.profile.ps1</code></li>
+<li>在 Windows 终端配置里把 PowerShell 的启动命令改为 <code class="notranslate">powershell.exe -NoExit -Command "&amp; $HOME\.profile.ps1"</code>，如果直接改 Json 配置要注意引号和反斜杠的转义</li>
+</ol>
+<p>完了。</p>
+</div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://blog.xuesong.io"> 随便写写 </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'post': 'M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z', 'link': 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z', 'about': 'M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z', 'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'search': 'M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z', 'rss': 'M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.502 10.502 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7.002 7.002 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.503 5.503 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489ZM2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z', 'upload': 'M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek main %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","amorphobia/blog");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+
+
+</html>

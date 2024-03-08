@@ -12,8 +12,9 @@
         else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
     </script>
     
-<meta name="description" content="随便写写 search page">
-<title>随便写写 - Tag</title>
+<meta name="description" content="龙书读书笔记 0x00">
+<title>龙书读书笔记 0x00</title>
+
 
 </head>
 <style>
@@ -24,56 +25,110 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </style>
 
 <style>
-.tagTitle{margin:auto 0;font-size:40px;font-weight:bold;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
 .title-right{display:flex;margin:auto 0 0 auto;}
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
-
-.subnav-search{width:222px;margin-top:8px;margin-right:8px;}
-.subnav-search-input{width:160px;border-top-right-radius:0px;border-bottom-right-radius:0px;}
-.subnav-search button{padding:5px 8px;border-top-left-radius:0px;border-bottom-left-radius:0px;}
-
-.SideNav-icon{margin-right: 16px}
-.Label{color: #fff;margin-left:8px;}
-.genTime{float: right;}
-.d-flex{min-width:0;}
-.listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
-.listLabels{white-space:nowrap;}
-
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
 @media (max-width: 600px) {
-    body { padding: 8px;}
-    .tagTitle{display:none;}
-    .LabelTime{display:none;}
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
 }
 </style>
 
 
+
+
 <body>
     <div id="header">
-<span class="tagTitle"><span>Loading</span><span class="AnimatedEllipsis"></span></span>
+<h1 class="postTitle">龙书读书笔记 0x00</h1>
 <div class="title-right">
-    <div class="subnav-search">
-        <input type="search" class="form-control subnav-search-input float-left" aria-label="Search site" value="" style="height:32px;">
-        <button class="btn float-left" type="submit" onclick="javascript:searchShow()">搜索</button>
-        <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-            <path id="searchSVG" fill-rule="evenodd" d=""></path>
-        </svg>
-    </div>
+    
     <a href="https://blog.xuesong.io"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd" d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path>
         </svg>
     </button></a>
-    <button class="btn btn-invisible circle" onclick="modeSwitch()" title="切换主题">
+
+    
+    <a href="https://github.com/amorphobia/blog/issues/9" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
     </button>
+
 </div>
 </div>
     <div id="content">
-<div id="tagLable" style="margin-bottom: 16px;"></div>
-<nav class="SideNav"></nav>
-<div class="notFind" style="display:none;font-size:24px;margin:8px;">Not Find</div>
+<div class="markdown-body" id="postBody"><p>以前学习能力还行的时候看不进去这本书，现在脑子转不过来了估计更是学不会了，虽然不知道我了解编译原理有什么作用，姑且当作一个消遣吧。</p>
+<p>文章并不是为了完整地写读书笔记，零散地记录一些我不理解的知识，以及看起来比较重要的知识，标题里方括号对应的就是书中的章节，方便我回顾的时候对照看书。</p>
+<h2>引论部分 [§1]</h2>
+<h3>编译器的结构 [§1.2]</h3>
+<ul>
+<li>分析 (analysis) 部分，即前端。</li>
+<li>综合 (synthesis) 部分，后端。<br>
+仅看第一章还无法理解前后端分别做了什么，之后回顾的时候再补充。</li>
+</ul>
+<h3>环境与状态 [§1.6.2]</h3>
+<ol>
+<li>环境 (environment) 是从名字到储存位置的映射，或称为从名字到变量 (左值) 的映射；</li>
+<li>状态 (state) 是从内存位置到值的映射，或称为把左值映射为右值。<br>
+虽然暂时没看懂这两个定义，但是提到了左值和右值，可能是需要注意的地方。</li>
+</ol>
+<h2>上下文无关文法、BNF (Backus-Naur 范式) [§2.2]</h2>
+<h3>定义相关 [§2.2.1]</h3>
+<p>上下文无关文法组成部分：</p>
+<ol>
+<li>终结符号的集合，或“词法单元”</li>
+<li>非终结符号的集合，或“语法变量”，每个非终结符号表示一个终结符号串的集合</li>
+<li>产生式的集合，包含一个产生式头（为非终结符号），一个箭头，和一个产生式体（由终结符号及非终结符号组成的序列）</li>
+<li>指定一个非终结符号为开始符号<br>
+之前也看见过一些类似的文法，比如 <a href="https://github.com/toml-lang/toml/blob/3b11f6921da7b6f5db37af039aa021fee450c091/toml.abnf">toml 的定义</a> 这种。大致能看懂这是在定义一些东西，不过不明白这个要怎么变成编译器的一部分。</li>
+</ol>
+<p>另外，这里的“终结”不是指目标语言中的语句的终结，而是说这个定义就是它本身了，不再由其他东西产生，比如书里的<code class="notranslate">例2.1</code>:</p>
+<pre class="notranslate"><code class="notranslate">list -&gt; list + digit
+list -&gt; list - digit
+list -&gt; digit
+digit -&gt; [0-9] # 这里我直接用了正则来表示数字，我自认为意思是表达到了。
+</code></pre>
+<p>这个文法的终结符号就包括 <code class="notranslate">+</code>, <code class="notranslate">-</code>, <code class="notranslate">0</code>, <code class="notranslate">1</code>, <code class="notranslate">2</code>, <code class="notranslate">3</code>, <code class="notranslate">4</code>, <code class="notranslate">5</code>, <code class="notranslate">6</code>, <code class="notranslate">7</code>, <code class="notranslate">8</code>, <code class="notranslate">9</code>；而 <code class="notranslate">list</code> 和 <code class="notranslate">digit</code> 是非终结符号。因为它们可以由其他符号产生。</p>
+<h3>语法分析树 [§2.2.3]</h3>
+<p>语法分析树 (parse tree) 的性质：</p>
+<ol>
+<li>根节点的标号为文法的开始符号；</li>
+<li>每个叶子节点的标号为终结符号（或 ε）；</li>
+<li>内部节点的标号为非终结符号；</li>
+<li>如果非终结符号 <code class="notranslate">A</code> 是某内部节点的标号，它的子节点的标号依次为 <code class="notranslate">X₁</code>, <code class="notranslate">X₂</code>, ... <code class="notranslate">Xₙ</code>，则必然存在产生式 <code class="notranslate">A -&gt; X₁X₂...Xₙ</code>。</li>
+</ol>
+<h3>运算优先级 [§2.2.6]</h3>
+<p>在文法中，运算符按照优先级递增的顺序排列，这里直接给出加减乘除运算符的产生式，如果有更多层优先级，可以类推。</p>
+<pre class="notranslate"><code class="notranslate">expr -&gt; expr + term | expr - term | term
+term -&gt; term * factor | term / factor | factor
+factor -&gt; digit | (expr)
+</code></pre>
+<h2>语法分析 [§2.4]</h2>
+<h3>自顶向下分析方法 [§2.4.1]</h3>
+<ol>
+<li>在非终结符号 <code class="notranslate">A</code> 的节点上，选择一个 <code class="notranslate">A</code> 的产生式，并为这个产生式中的每个符号构造子节点；</li>
+<li>寻找下一个节点来构造子树。</li>
+</ol>
+<p>当前被扫描的终结符号通常称为向前看 (lookahead) 符号。具体操作可以看书上的例子，比较通俗易懂。</p>
+<h3>预测分析法 [§2.4.2]</h3>
+<p>预测分析法是递归下降分析方法 (recursive-descent parsing) 的一种，<a href="https://rustc-dev-guide.rust-lang.org/overview.html#what-the-compiler-does-to-your-code" rel="nofollow">Rust 的编译器就是用的递归下降分析法</a>，书上的例子也大致描述了它是如何运作的。</p>
+</div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
 </div>
     <div id="footer">Copyright © <span id="year"></span><a href="https://blog.xuesong.io"> 随便写写 </a>
 <p>
@@ -126,144 +181,45 @@ console.log("\n %c Gmeek main %c https://github.com/Meekdai/Gmeek \n\n", "color:
 </script>
 
 <script>
-document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
 
-tagList=[];
-jsonData='';
-let requestJson="postList.json"
-let request=new XMLHttpRequest();
-request.open("GET",requestJson);
-request.responseType='text';
-request.send();
-request.onload=function(){
-    jsonData=JSON.parse(request.response);
-    console.log(jsonData);
-    showList();
-    setClassDisplay(decodeURI(window.location.hash.slice(1)));
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","amorphobia/blog");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
 }
 
-function showList(){
-    let SideNav=document.getElementsByClassName("SideNav")[0];
-    SideNav.setAttribute("class","SideNav border");
-    let tagLable=document.getElementById("tagLable");
-
-    if(tagList.length==0){
-        let showLabels=document.createElement("button");
-        showLabels.setAttribute("class","Label");
-        showLabels.setAttribute("style","background-color:#000");
-        showLabels.innerHTML="All";
-        showLabels.setAttribute("onclick","javascript:updateShowTag('All');");
-        tagLable.appendChild(showLabels);
-    }
-    for(i in jsonData){
-        if(!(tagList.includes(jsonData[i]['label']))){
-            tagList.push(jsonData[i]['label']);
-            let showLabels=document.createElement("button");
-            showLabels.setAttribute("class","Label");
-            showLabels.setAttribute("style","background-color:"+jsonData[i]['labelColor']);
-            showLabels.innerHTML=jsonData[i]['label'];
-            showLabels.setAttribute("onclick","javascript:updateShowTag('"+jsonData[i]['label']+"');");
-            tagLable.appendChild(showLabels);
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
         }
-
-        let div=document.createElement("div");
-        div.setAttribute("class","lists "+jsonData[i]['label']);
-        let item=document.createElement("a");
-        item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
-        item.setAttribute("href",jsonData[i]['postUrl']);
-
-        let center=document.createElement("div");
-        center.setAttribute("class","d-flex flex-items-center");
-
-        svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-        path=document.createElementNS("http://www.w3.org/2000/svg","path"); 
-        span=document.createElement("span");
-        svg.setAttributeNS(null,"class","SideNav-icon octicon");
-        svg.setAttributeNS(null,"style","witdh:16px;height:16px");
-        path.setAttributeNS(null, "d", IconList["post"]);
-        svg.appendChild(path);
-
-        let title=document.createElement("span");
-        title.setAttribute("class","listTitle");
-        title.innerHTML=jsonData[i]['postTitle'];
-        center.appendChild(svg);
-        center.appendChild(title);
-
-        let listLabels=document.createElement("div");
-        listLabels.setAttribute("class","listLabels");
-        let LabelName=document.createElement("span");
-        LabelName.setAttribute("class","Label LabelName");
-        LabelName.setAttribute("style","background-color:"+jsonData[i]['labelColor']);
-        LabelName.innerHTML=jsonData[i]['label'];
-        listLabels.appendChild(LabelName);
-        let LabelTime=document.createElement("span");
-        LabelTime.setAttribute("class","Label LabelTime");
-        LabelTime.setAttribute("style","background-color:"+jsonData[i]['dateLabelColor']);
-        LabelTime.innerHTML=jsonData[i]['createdDate'];
-        listLabels.appendChild(LabelTime);
-
-        item.appendChild(center);
-        item.appendChild(listLabels);
-        div.appendChild(item);
-        SideNav.appendChild(div);
     }
-}
-
-function updateShowTag(label){
-    if(window.location.hash.slice(1)!=encodeURI(label)){
-        window.location.hash="#"+(label);
-        setClassDisplay(label);
-    }
-}
-
-function setClassDisplay(lable){
-    let lists = document.getElementsByClassName("lists");
-    let tagTitle = document.getElementsByClassName("tagTitle")[0];
-    tagTitle.innerHTML="Tag #"+lable;
-    document.title=lable+" - 随便写写";
-    document.getElementsByClassName("subnav-search-input")[0].value='';
-    if(lable=="All"){
-        for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}
-        document.getElementsByClassName("notFind")[0].style.display='none';
-    }
-    else if(tagList.indexOf(lable)!=-1){
-        for(let i = 0; i < lists.length; i++){
-            lists[i].style.display='none';
-        }
-
-        let lables = document.getElementsByClassName(lable);
-        for(let i = 0; i < lables.length; i++){
-            lables[i].style.display='block';
-        }
-        document.getElementsByClassName("notFind")[0].style.display='none';
-    }
-    else{
-        document.getElementsByClassName("subnav-search-input")[0].value=lable;
-        searchShow();
-    }
-}
-
-function searchShow(){
-    let lists = document.getElementsByClassName("lists");
-    let tagTitle = document.getElementsByClassName("tagTitle")[0];
-    let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
-    tagTitle.innerHTML="Search #"+searchInput;
-    if(searchInput==''){document.title="Search - 随便写写";}
-    else{document.title=searchInput+" - 随便写写";}
-    let a=0;
-    window.location.hash="#"+(searchInput);
-    for(let i = 0; i < lists.length; i++){
-        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.toUpperCase().indexOf(searchInput.toUpperCase())==-1){lists[i].style.display='none';}
-        else{lists[i].style.display='block';a=a+1;}
-    }
-    if(a==0){
-        let notFind=document.getElementsByClassName("notFind")[0];
-        notFind.style.display='block';
-        notFind.innerHTML='Not Find "'+searchInput+'"';
-    }
-    else{document.getElementsByClassName("notFind")[0].style.display='none';}
 }
 
 </script>
+
+
+
 
 </html>

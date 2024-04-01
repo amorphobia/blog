@@ -95,7 +95,7 @@ start cudatext file.txt</pre></div>
 } <span class="pl-k">else</span> {
     <span class="pl-c1">Start-Process</span> <span class="pl-k">-</span>WindowStyle <span class="pl-k">hidden</span> <span class="pl-c1">$args</span>[<span class="pl-c1">0</span>]
 }</pre></div>
-<p>把这个脚本另存为 <code class="notranslate">run.ps1</code>，放到任意一个 <code class="notranslate">$env:Path</code> 目录中，就可以使用 <code class="notranslate">run cudatext file.txt</code> 快捷打开了。虽然这个脚本很短，但菜鸡如我写了一个很长的版本，边写边查给改成这样的。</p>
+<p>把这个脚本另存为 <code class="notranslate">run.ps1</code>，放到任意一个 <code class="notranslate">$env:Path</code> 目录中，就可以使用 <code class="notranslate">run cudatext file.txt</code> 快捷打开了。虽然这个脚本很短，但菜鸡如我，一开始写了一个很长的版本，边写边查给改成这样的。</p>
 <p>对于文本编辑器这种常用程序，可以更进一步为其编写一个专用脚本</p>
 <div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> ct.ps1</span>
 <span class="pl-k">if</span> (<span class="pl-c1">$args<span class="pl-smi">.Length</span></span> <span class="pl-k">-lt</span> <span class="pl-c1">1</span>) {

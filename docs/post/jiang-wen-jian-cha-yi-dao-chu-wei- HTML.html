@@ -9,7 +9,9 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="近日在处理文件差异的时候搜索到的一个方法，可以用 vim 把差异导出为 HTML ([来源](https://stackoverflow.com/a/68465366/6676742))
+<meta name="description" content="# 一行命令完成需求
+
+近日在处理文件差异的时候搜索到的一个方法，可以用 vim 把差异导出为 HTML ([来源](https://stackoverflow.com/a/68465366/6676742))
 
 ```sh
 vimdiff -c TOhtml -c "w vimdiff_export.html | qa!" file1 file2
@@ -17,7 +19,9 @@ vimdiff -c TOhtml -c "w vimdiff_export.html | qa!" file1 file2
 
 使用 `vimdiff` 对比两个文件，依次执行 `TOhtml`、保存、全部退出。">
 <meta property="og:title" content="将文件差异导出为 HTML">
-<meta property="og:description" content="近日在处理文件差异的时候搜索到的一个方法，可以用 vim 把差异导出为 HTML ([来源](https://stackoverflow.com/a/68465366/6676742))
+<meta property="og:description" content="# 一行命令完成需求
+
+近日在处理文件差异的时候搜索到的一个方法，可以用 vim 把差异导出为 HTML ([来源](https://stackoverflow.com/a/68465366/6676742))
 
 ```sh
 vimdiff -c TOhtml -c "w vimdiff_export.html | qa!" file1 file2
@@ -82,9 +86,45 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>近日在处理文件差异的时候搜索到的一个方法，可以用 vim 把差异导出为 HTML (<a href="https://stackoverflow.com/a/68465366/6676742" rel="nofollow">来源</a>)</p>
+<div class="markdown-body" id="postBody"><h1>一行命令完成需求</h1>
+<p>近日在处理文件差异的时候搜索到的一个方法，可以用 vim 把差异导出为 HTML (<a href="https://stackoverflow.com/a/68465366/6676742" rel="nofollow">来源</a>)</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">vimdiff -c TOhtml -c <span class="pl-s"><span class="pl-pds">"</span>w vimdiff_export.html | qa!<span class="pl-pds">"</span></span> file1 file2</pre></div>
-<p>使用 <code class="notranslate">vimdiff</code> 对比两个文件，依次执行 <code class="notranslate">TOhtml</code>、保存、全部退出。</p></div>
+<p>使用 <code class="notranslate">vimdiff</code> 对比两个文件，依次执行 <code class="notranslate">TOhtml</code>、保存、全部退出。</p>
+<hr>
+<blockquote>
+<p>2024-04-20 更新</p>
+</blockquote>
+<h1>解决横向滚动同步问题</h1>
+<p>Vim 保存的网页在表格中使用了左右两个 <code class="notranslate">&lt;div&gt;</code>，可以自然地同步纵向的滚动，但横向的滚动并不同步。搜索一番后，我在 stackoverflow 上找到了<a href="https://stackoverflow.com/a/41998497/6676742" rel="nofollow">这个回答</a>。稍作修改，把如下代码放到 <code class="notranslate">body</code> 的末尾，就能同步两边的横向滚动了。</p>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate"><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">type</span>="<span class="pl-s">text/javascript</span>"<span class="pl-kos">&gt;</span>
+<span class="pl-k">var</span> <span class="pl-s1">isSyncingLeftScroll</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+<span class="pl-k">var</span> <span class="pl-s1">isSyncingRightScroll</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+<span class="pl-k">var</span> <span class="pl-s1">leftDiv</span> <span class="pl-c1">=</span> <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">getElementsByTagName</span><span class="pl-kos">(</span><span class="pl-s">'div'</span><span class="pl-kos">)</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">;</span>
+<span class="pl-k">var</span> <span class="pl-s1">rightDiv</span> <span class="pl-c1">=</span> <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">getElementsByTagName</span><span class="pl-kos">(</span><span class="pl-s">'div'</span><span class="pl-kos">)</span><span class="pl-kos">[</span><span class="pl-c1">1</span><span class="pl-kos">]</span><span class="pl-kos">;</span>
+
+<span class="pl-s1">leftDiv</span><span class="pl-kos">.</span><span class="pl-en">onscroll</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-c1">!</span><span class="pl-s1">isSyncingLeftScroll</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-s1">isSyncingRightScroll</span> <span class="pl-c1">=</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
+    <span class="pl-s1">rightDiv</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span>
+  <span class="pl-s1">isSyncingLeftScroll</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-s1">rightDiv</span><span class="pl-kos">.</span><span class="pl-en">onscroll</span> <span class="pl-c1">=</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-c1">!</span><span class="pl-s1">isSyncingRightScroll</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-s1">isSyncingLeftScroll</span> <span class="pl-c1">=</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
+    <span class="pl-s1">leftDiv</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span>
+  <span class="pl-s1">isSyncingRightScroll</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
+<h2>缩短代码以便在 shell 脚本里完成</h2>
+<p>虽然这段代码已经够短了，但我还是把它缩得更短了：</p>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate"><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-s1">m</span><span class="pl-c1">=</span><span class="pl-c1">!</span><span class="pl-c1">1</span><span class="pl-kos">,</span><span class="pl-s1">s</span><span class="pl-c1">=</span><span class="pl-c1">!</span><span class="pl-c1">1</span><span class="pl-kos">,</span><span class="pl-s1">a</span><span class="pl-c1">=</span><span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">getElementsByTagName</span><span class="pl-kos">(</span><span class="pl-s">"div"</span><span class="pl-kos">)</span><span class="pl-kos">,</span><span class="pl-s1">l</span><span class="pl-c1">=</span><span class="pl-s1">a</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span><span class="pl-s1">r</span><span class="pl-c1">=</span><span class="pl-s1">a</span><span class="pl-kos">[</span><span class="pl-c1">1</span><span class="pl-kos">]</span><span class="pl-kos">;</span><span class="pl-s1">l</span><span class="pl-kos">.</span><span class="pl-en">onscroll</span><span class="pl-c1">=</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span><span class="pl-s1">m</span><span class="pl-c1">||</span><span class="pl-kos">(</span><span class="pl-s1">s</span><span class="pl-c1">=</span><span class="pl-c1">!</span><span class="pl-c1">0</span><span class="pl-kos">,</span><span class="pl-s1">r</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span><span class="pl-c1">=</span><span class="pl-s1">l</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span><span class="pl-kos">)</span><span class="pl-kos">,</span><span class="pl-s1">m</span><span class="pl-c1">=</span><span class="pl-c1">!</span><span class="pl-c1">1</span><span class="pl-kos">}</span><span class="pl-kos">,</span><span class="pl-s1">r</span><span class="pl-kos">.</span><span class="pl-en">onscroll</span><span class="pl-c1">=</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">{</span><span class="pl-s1">s</span><span class="pl-c1">||</span><span class="pl-kos">(</span><span class="pl-s1">m</span><span class="pl-c1">=</span><span class="pl-c1">!</span><span class="pl-c1">0</span><span class="pl-kos">,</span><span class="pl-s1">l</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span><span class="pl-c1">=</span><span class="pl-s1">r</span><span class="pl-kos">.</span><span class="pl-c1">scrollLeft</span><span class="pl-kos">)</span><span class="pl-kos">,</span><span class="pl-s1">s</span><span class="pl-c1">=</span><span class="pl-c1">!</span><span class="pl-c1">1</span><span class="pl-kos">}</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
+<p>这样，在我的 shell 脚本里，只需三行就可以满足需求：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">SRC=<span class="pl-s"><span class="pl-pds">'</span>&lt;script&gt;m=!1,s=!1,a=document.getElementsByTagName("div"),l=a[0],r=a[1];l.onscroll=function(){m||(s=!0,r.scrollLeft=l.scrollLeft),m=!1},r.onscroll=function(){s||(m=!0,l.scrollLeft=r.scrollLeft),s=!1}&lt;/script&gt;<span class="pl-pds">'</span></span>
+vimdiff -c TOhtml -c <span class="pl-s"><span class="pl-pds">"</span>w vimdiff_export.html | qa!<span class="pl-pds">"</span></span> file1 file2
+sed -i <span class="pl-s"><span class="pl-pds">'</span>/&lt;\/body&gt;/i<span class="pl-pds">'</span></span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${SRC}</span><span class="pl-pds">"</span></span> vimdiff_export.html</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
 <div class="comments" id="comments"></div>

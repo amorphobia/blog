@@ -5,6 +5,12 @@
     "homeUrl":"https://blog.xuesong.io",
     "avatarUrl":"https://raw.githubusercontent.com/amorphobia/blog/master/images/amorphobia.svg",
     "faviconUrl":"https://raw.githubusercontent.com/amorphobia/blog/master/images/amorphobia.svg",
+    "email": "pengxuesong.cn@gmail.com",
+    "startSite": "04/30/2017",
     "singlePage":[],
+    "i18n": "CN",
+    "UTC": 8,
+    "allHead":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>",
+    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
     "GMEEK_VERSION":"main"
 }

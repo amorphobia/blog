@@ -16,7 +16,7 @@ MsgBox % quine
 我尝试着用 AHK v2 写出了真正的 Quine：
 
 ```AutoHotkey
-s:="s:={1}{2}{1},MsgBox(Format(s,Chr(34),s))",MsgBox(Format(s,Chr(34),s))
+s:="s:={}{}{1},MsgBox(Format(s,Chr(34),s))",MsgBox(Format(s,Chr(34),s))
 ```
 
 运行效果如图

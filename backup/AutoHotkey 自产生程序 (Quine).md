@@ -23,5 +23,35 @@ s:="s:={1}{2}{1},MsgBox(Format(s,Chr(34),s))",MsgBox(Format(s,Chr(34),s))
 
 ![AutoHotkey Quine](https://github.com/user-attachments/assets/992473a6-f2ed-4be4-88b4-1be36124ed0f)
 
+## 另一个思路
+
+在知乎上看到了一个 Quine 的构造方法[^2]，算是比较通用的方式，有一点编译器自举的既视感，尝试用 AutoHotkey 实现了一遍。
+
+首先这个方法语言支持匿名函数，这在 AutoHotkey 里叫做“[胖箭头函数](https://www.autohotkey.com/docs/v2/Variables.htm#fat-arrow)”。用其构造一个函数，可以连续打印两遍输入，第一遍使用括号将其包含，第二遍使用括号和引号将其包含。
+
+```AutoHotkey
+quine := (s) => MsgBox(Chr(40) s Chr(41) Chr(40) Chr(34) s Chr(34) Chr(41))
+
+quine("q")       ; 打印 (q)("q")
+quine("quine")   ; 打印 (quine)("quine")
+(quine)("quine") ; 打印 (quine)("quine")
+```
+
+这种 `(q)("q")` 的形式就表达了“声明一个函数对象，并把声明的字符串传入自身调用”。因此，我们接下来把第一行整句作为字符串传入 `quine` 函数来调用：
+
+```AutoHotkey
+; 打印 (quine := (s) => MsgBox(Chr(40) s Chr(41) Chr(40) Chr(34) s Chr(34) Chr(41)))("quine := (s) => MsgBox(Chr(40) s Chr(41) Chr(40) Chr(34) s Chr(34) Chr(41))")
+(quine)("quine := (s) => MsgBox(Chr(40) s Chr(41) Chr(40) Chr(34) s Chr(34) Chr(41))")
+```
+
+打印的结果就是一个自产生程序，最后，由于函数对象声明后立即调用，可以省去变量赋值而直接使用其匿名形式：
+
+```AutoHotkey
+((s) => MsgBox(Chr(40) s Chr(41) Chr(40) Chr(34) s Chr(34) Chr(41)))("(s) => MsgBox(Chr(40) s Chr(41) Chr(40) Chr(34) s Chr(34) Chr(41))")
+```
+
+![Another Quine](https://github.com/user-attachments/assets/4732177e-2d29-4aeb-ba07-dd04000499a1)
+
 
 [^1]: https://rosettacode.org/wiki/Quine#AutoHotkey
+[^2]: https://www.zhihu.com/question/38145793/answer/984510905

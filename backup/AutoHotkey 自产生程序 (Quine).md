@@ -16,12 +16,12 @@ MsgBox % quine
 我尝试着用 AHK v2 写出了真正的 Quine：
 
 ```AutoHotkey
-s:="s:={}{}{1},MsgBox(Format(s,Chr(34),s))",MsgBox(Format(s,Chr(34),s))
+s:="s:={:c}{}{1:c},MsgBox(Format(s,34,s))",MsgBox(Format(s,34,s))
 ```
 
 运行效果如图
 
-![AutoHotkey Quine](https://github.com/user-attachments/assets/992473a6-f2ed-4be4-88b4-1be36124ed0f)
+![AutoHotkey Quine](https://github.com/user-attachments/assets/2f895589-aabc-474a-87fa-a5f7f3fabb2e)
 
 ## 另一个思路
 

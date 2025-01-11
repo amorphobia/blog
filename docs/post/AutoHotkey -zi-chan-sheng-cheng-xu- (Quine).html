@@ -92,7 +92,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><a href="https://zh.wikipedia.org/zh-cn/%E8%87%AA%E7%94%A2%E7%94%9F%E7%A8%8B%E5%BC%8F" rel="nofollow">自产生程序</a>（英语：Quine），指的是输出结果为<a href="https://zh.wikipedia.org/zh-cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A8%8B%E5%BA%8F" rel="nofollow">程序</a>自身<a href="https://zh.wikipedia.org/zh-cn/%E6%BA%90%E4%BB%A3%E7%A0%81" rel="nofollow">源码</a>的程序。其英文名称以美国哲学家<a href="https://zh.wikipedia.org/zh-cn/%E5%A8%81%E6%8B%89%E5%BE%B7%C2%B7%E8%8C%83%C2%B7%E5%A5%A5%E6%9B%BC%C2%B7%E8%92%AF%E5%9B%A0" rel="nofollow">奎恩</a>（Willard Van Orman Quine）命名，能够直接读取自己源码、读入用户输入或空白的程序一般都不视为自产生程序。</p>
 </blockquote>
 <h2>AutoHotkey 的 Quine</h2>
-<p>在 Rosetta Code 的 <a href="https://rosettacode.org/wiki/Quine" rel="nofollow">Quine</a> 页面，列出了很多语言写的“自产生程序”。其中就有我使用的 AutoHotkey<sup><a href="#user-content-fn-1-ec0c04afff7c90177e971912b311ee0c" id="user-content-fnref-1-ec0c04afff7c90177e971912b311ee0c" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>：</p>
+<p>在 Rosetta Code 的 <a href="https://rosettacode.org/wiki/Quine" rel="nofollow">Quine</a> 页面，列出了很多语言写的“自产生程序”。其中就有我使用的 AutoHotkey<sup><a href="#user-content-fn-1-874dd0e361d759f2df5040b9ff619277" id="user-content-fnref-1-874dd0e361d759f2df5040b9ff619277" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>：</p>
 <div class="highlight highlight-source-ahk"><pre class="notranslate"><span class="pl-c1">FileRead</span>, quine, %<span class="pl-c1">A_ScriptFullPath</span>%
 <span class="pl-c1">MsgBox</span> % quine</pre></div>
 <p>然而这段代码是“作弊”的，因为 Quine 不允许查看自身代码也就不能使用 <code class="notranslate">FileRead</code>。</p>
@@ -101,7 +101,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>运行效果如图</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2f895589-aabc-474a-87fa-a5f7f3fabb2e"><img src="https://github.com/user-attachments/assets/2f895589-aabc-474a-87fa-a5f7f3fabb2e" alt="AutoHotkey Quine" style="max-width: 100%;"></a></p>
 <h2>另一个思路</h2>
-<p>在知乎上看到了一个 Quine 的构造方法<sup><a href="#user-content-fn-2-ec0c04afff7c90177e971912b311ee0c" id="user-content-fnref-2-ec0c04afff7c90177e971912b311ee0c" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup>，算是比较通用的方式，有一点编译器自举的既视感，尝试用 AutoHotkey 实现了一遍。</p>
+<p>在知乎上看到了一个 Quine 的构造方法<sup><a href="#user-content-fn-2-874dd0e361d759f2df5040b9ff619277" id="user-content-fnref-2-874dd0e361d759f2df5040b9ff619277" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup>，算是比较通用的方式，有一点编译器自举的既视感，尝试用 AutoHotkey 实现了一遍。</p>
 <p>首先这个方法语言支持匿名函数，这在 AutoHotkey 里叫做“<a href="https://www.autohotkey.com/docs/v2/Variables.htm#fat-arrow" rel="nofollow">胖箭头函数</a>”。用其构造一个函数，可以连续打印两遍输入，第一遍使用括号将其包含，第二遍使用括号和引号将其包含。</p>
 <div class="highlight highlight-source-ahk"><pre class="notranslate">quine := (s) =&gt; <span class="pl-c1">MsgBox</span>(<span class="pl-c1">Chr</span>(<span class="pl-c1">40</span>) s <span class="pl-c1">Chr</span>(<span class="pl-c1">41</span>) <span class="pl-c1">Chr</span>(<span class="pl-c1">40</span>) <span class="pl-c1">Chr</span>(<span class="pl-c1">34</span>) s <span class="pl-c1">Chr</span>(<span class="pl-c1">34</span>) <span class="pl-c1">Chr</span>(<span class="pl-c1">41</span>))
 
@@ -116,11 +116,11 @@ quine(<span class="pl-s"><span class="pl-pds">"</span>quine<span class="pl-pds">
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4732177e-2d29-4aeb-ba07-dd04000499a1"><img src="https://github.com/user-attachments/assets/4732177e-2d29-4aeb-ba07-dd04000499a1" alt="Another Quine" style="max-width: 100%;"></a></p>
 <section data-footnotes="" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
 <ol>
-<li id="user-content-fn-1-ec0c04afff7c90177e971912b311ee0c">
-<p><a href="https://rosettacode.org/wiki/Quine#AutoHotkey">https://rosettacode.org/wiki/Quine#AutoHotkey</a> <a href="#user-content-fnref-1-ec0c04afff7c90177e971912b311ee0c" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+<li id="user-content-fn-1-874dd0e361d759f2df5040b9ff619277">
+<p><a href="https://rosettacode.org/wiki/Quine#AutoHotkey">https://rosettacode.org/wiki/Quine#AutoHotkey</a> <a href="#user-content-fnref-1-874dd0e361d759f2df5040b9ff619277" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
-<li id="user-content-fn-2-ec0c04afff7c90177e971912b311ee0c">
-<p><a href="https://www.zhihu.com/question/38145793/answer/984510905">https://www.zhihu.com/question/38145793/answer/984510905</a> <a href="#user-content-fnref-2-ec0c04afff7c90177e971912b311ee0c" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+<li id="user-content-fn-2-874dd0e361d759f2df5040b9ff619277">
+<p><a href="https://www.zhihu.com/question/38145793/answer/984510905">https://www.zhihu.com/question/38145793/answer/984510905</a> <a href="#user-content-fnref-2-874dd0e361d759f2df5040b9ff619277" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section></div>

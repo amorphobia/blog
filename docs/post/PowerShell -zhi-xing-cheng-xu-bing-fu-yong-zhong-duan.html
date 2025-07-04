@@ -93,7 +93,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-c"><span class="pl-c">#</span> 或者使用别名</span>
 start cudatext file.txt</pre></div>
 <p>如果你尝试了上面的命令则会发现，对于 CudaText 这类占用终端的软件，即使是 <code class="notranslate">Start-Process</code> 也会产生一个 conhost 窗口。<br>
-<a target="_blank" rel="noopener noreferrer" href="https://github.com/amorphobia/blog/assets/523025/e13ea403-3e5e-4651-9fbe-c1c91ff3c7d9"><img src="https://github.com/amorphobia/blog/assets/523025/e13ea403-3e5e-4651-9fbe-c1c91ff3c7d9" alt="cudatext-with-conhost-window" style="max-width: 100%;"></a></p>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/amorphobia/blog/assets/523025/e13ea403-3e5e-4651-9fbe-c1c91ff3c7d9"><img src="https://github.com/amorphobia/blog/assets/523025/e13ea403-3e5e-4651-9fbe-c1c91ff3c7d9" alt="cudatext-with-conhost-window" style="max-width: 100%; height: auto;"></a></p>
 <p>所幸的是，<code class="notranslate">Start-Process</code> 支持 <code class="notranslate">WindowStyle</code> 参数，可以将其设置为 <code class="notranslate">hidden</code>，就不会显示 conhost 窗口了。</p>
 <h2>命令太长了</h2>
 <p>当然，这样的命令不适合日常使用，但我们可以写一个脚本，这样就可以使用很短的命令来运行程序了。</p>

@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://blog.xuesong.io/post/bu-ken-qing-yi-tui-chu-de-zhong-duan-huan-jing.html">
 <meta property="og:image" content="https://kvault.xuesong.eu.org/file/BQACAgUAAyEGAATe06RqAAMGaaPPkeCb4FIW1XMcAAEKgevIvTjFAAK8GwACw5ohVYdJvJySYHF7OgQ.svg">
 <title>不肯轻易退出的终端环境</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -96,59 +96,69 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>并等待用户输入。更恼人的是，这个输入必须以 <code class="notranslate">y</code> 或者 <code class="notranslate">n</code> 开头才能关闭标签页，所以不能留空，也不能输入任意字符。</p>
 <h2>当前配置</h2>
 <p>查看一下终端环境的 <code class="notranslate">profiles</code>，我的配置如下</p>
-<div class="highlight highlight-source-json"><pre class="notranslate">{
-    <span class="pl-ent">"closeOnExit"</span>: <span class="pl-s"><span class="pl-pds">"</span>always<span class="pl-pds">"</span></span>,
-    <span class="pl-ent">"commandline"</span>: <span class="pl-s"><span class="pl-pds">"</span>D:<span class="pl-cce">\\</span>msys64<span class="pl-cce">\\</span>msys2_shell.cmd -defterm -here -no-start -clang64 -shell bash<span class="pl-pds">"</span></span>,
-    <span class="pl-ent">"guid"</span>: <span class="pl-s"><span class="pl-pds">"</span>{some-random-guid-value}<span class="pl-pds">"</span></span>,
-    <span class="pl-ent">"hidden"</span>: <span class="pl-c1">false</span>,
-    <span class="pl-ent">"icon"</span>: <span class="pl-s"><span class="pl-pds">"</span>D:<span class="pl-cce">\\</span>msys64<span class="pl-cce">\\</span>clang64.ico<span class="pl-pds">"</span></span>,
-    <span class="pl-ent">"name"</span>: <span class="pl-s"><span class="pl-pds">"</span>MSYS2: clang64<span class="pl-pds">"</span></span>,
-    <span class="pl-ent">"startingDirectory"</span>: <span class="pl-s"><span class="pl-pds">"</span>D:<span class="pl-cce">\\</span>msys64<span class="pl-cce">\\</span>home<span class="pl-cce">\\</span>username<span class="pl-pds">"</span></span>
-}</pre></div>
+<pre lang="json" class="notranslate"><code class="notranslate">{
+    "closeOnExit": "always",
+    "commandline": "D:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -shell bash",
+    "guid": "{some-random-guid-value}",
+    "hidden": false,
+    "icon": "D:\\msys64\\clang64.ico",
+    "name": "MSYS2: clang64",
+    "startingDirectory": "D:\\msys64\\home\\username"
+}
+</code></pre>
 <p>可以看出，已经设置了总是在退出时关闭标签页，那么不能关闭的原因就应该是还没真正退出。我们的 <code class="notranslate">commandline</code> 是一个 <code class="notranslate">.cmd</code> 批处理脚本，结合前面的询问信息，确定就是在退出这个批处理时，<code class="notranslate">cmd.exe</code> 想要我们的答复。</p>
 <p>思考了一下，我们不通过这个脚本，直接把脚本实质运行的命令放在这里，是不是就不用等待这个退出确认了？修改一下试试看吧。</p>
 <p><a href="#%E7%BB%84%E5%90%88%E4%B8%BA%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4">太长不看点这里</a></p>
 <h2>分析命令行作用</h2>
 <h3><code class="notranslate">defterm</code></h3>
 <p>这是我的命令行第一个参数，看看 <code class="notranslate">msys2_shell.cmd</code>，它到底做了什么？</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-v">%~1</span><span class="pl-pds">"</span></span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>x-defterm<span class="pl-pds">"</span></span> shift<span class="pl-k">&amp;</span> <span class="pl-k">set</span> /a <span class="pl-smi">msys2_shiftCounter</span><span class="pl-k">+=</span>1<span class="pl-k">&amp;</span> <span class="pl-k">set</span> <span class="pl-smi">MSYSCON</span><span class="pl-k">=</span>defterm<span class="pl-k">&amp;</span> <span class="pl-k">goto</span> :<span class="pl-k">checkparams</span></pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">if "x%~1" == "x-defterm" shift&amp; set /a msys2_shiftCounter+=1&amp; set MSYSCON=defterm&amp; goto :checkparams
+</code></pre>
 <p>它将移除已解析的当前参数，设置变量 <code class="notranslate">MSYSCON</code> 为 <code class="notranslate">defterm</code> 然后返回参数检查的开头。这里的实质作用就是设置了变量，看看这个变量会起到什么作用吧</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-smi">%MSYSCON%</span><span class="pl-pds">"</span></span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>xdefterm<span class="pl-pds">"</span></span> <span class="pl-k">goto</span> startsh</pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">if "x%MSYSCON%" == "xdefterm" goto startsh
+</code></pre>
 <p>如果变量是 <code class="notranslate">defterm</code> 直接去 <code class="notranslate">startsh</code> 标签，再看看 <code class="notranslate">startsh</code> 的定义</p>
 <p><a id="user-content-startsh"></a></p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate">:<span class="pl-k">startsh</span>
-<span class="pl-k">set</span> <span class="pl-smi">MSYSCON</span><span class="pl-k">=</span>
-<span class="pl-k">if</span> <span class="pl-k">not</span> <span class="pl-k">defined</span> MSYS2_NOSTART (
-  <span class="pl-k">start</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">%CONTITLE%</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">%WD%</span>\<span class="pl-smi">%LOGINSHELL%</span><span class="pl-pds">"</span></span> -l <span class="pl-smi">!SHELL_ARGS!</span>
-) <span class="pl-k">else</span> (
-  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">%WD%</span>\<span class="pl-smi">%LOGINSHELL%</span><span class="pl-pds">"</span></span> -l <span class="pl-smi">!SHELL_ARGS!</span>
+<pre lang="cmd" class="notranslate"><code class="notranslate">:startsh
+set MSYSCON=
+if not defined MSYS2_NOSTART (
+  start "%CONTITLE%" "%WD%\%LOGINSHELL%" -l !SHELL_ARGS!
+) else (
+  "%WD%\%LOGINSHELL%" -l !SHELL_ARGS!
 )
-<span class="pl-k">exit</span> /b <span class="pl-smi">%ERRORLEVEL%</span></pre></div>
+exit /b %ERRORLEVEL%
+</code></pre>
 <p>清除了这个变量，然后根据 <code class="notranslate">MSYS2_NOSTART</code> 的定义执行不同的命令；不难看出，这里应该就是真正启动终端环境的地方了。那么，<code class="notranslate">MSYS2_NOSTART</code> 是如何定义的呢？我们暂且按下不表。</p>
 <h3><code class="notranslate">here</code></h3>
 <p>这是第二个参数，看看它是怎么解析的吧</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-v">%~1</span><span class="pl-pds">"</span></span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>x-here<span class="pl-pds">"</span></span> shift<span class="pl-k">&amp;</span> <span class="pl-k">set</span> /a <span class="pl-smi">msys2_shiftCounter</span><span class="pl-k">+=</span>1<span class="pl-k">&amp;</span> <span class="pl-k">set</span> <span class="pl-smi">CHERE_INVOKING</span><span class="pl-k">=</span>enabled_from_arguments<span class="pl-k">&amp;</span> <span class="pl-k">goto</span> :<span class="pl-k">checkparams</span></pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">if "x%~1" == "x-here" shift&amp; set /a msys2_shiftCounter+=1&amp; set CHERE_INVOKING=enabled_from_arguments&amp; goto :checkparams
+</code></pre>
 <p>仅仅是设置了 <code class="notranslate">CHERE_INVOKING</code> 变量为 <code class="notranslate">enabled_from_arguments</code>，之后的脚本也没有再使用这个变量，可以猜测，它的值会由最终执行的命令从环境变量中获取，并影响其初始目录。</p>
 <h3><code class="notranslate">no-start</code></h3>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-v">%~1</span><span class="pl-pds">"</span></span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>x-no-start<span class="pl-pds">"</span></span> shift<span class="pl-k">&amp;</span> <span class="pl-k">set</span> /a <span class="pl-smi">msys2_shiftCounter</span><span class="pl-k">+=</span>1<span class="pl-k">&amp;</span> <span class="pl-k">set</span> <span class="pl-smi">MSYS2_NOSTART</span><span class="pl-k">=</span>yes<span class="pl-k">&amp;</span> <span class="pl-k">goto</span> :<span class="pl-k">checkparams</span></pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">if "x%~1" == "x-no-start" shift&amp; set /a msys2_shiftCounter+=1&amp; set MSYS2_NOSTART=yes&amp; goto :checkparams
+</code></pre>
 <p>第三个参数则设置了 <code class="notranslate">MSYS2_NOSTART</code> 变量，我们回到刚才 <a href="#startsh"><code class="notranslate">startsh</code></a> 的分析，应该是执行 <code class="notranslate">else</code> 的操作 <code class="notranslate">"%WD%\%LOGINSHELL%" -l !SHELL_ARGS!</code>。这里有三个不同的变量，先看看 <code class="notranslate">WD</code></p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">set</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">WD</span><span class="pl-k">=</span><span class="pl-smi">%__CD__%</span><span class="pl-pds">"</span></span>
-<span class="pl-k">if</span> <span class="pl-k">NOT</span> <span class="pl-k">EXIST</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">%WD%</span>msys-2.0.dll<span class="pl-pds">"</span></span> <span class="pl-k">set</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">WD</span><span class="pl-k">=</span><span class="pl-v">%~dp0</span>usr\bin\<span class="pl-pds">"</span></span></pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">set "WD=%__CD__%"
+if NOT EXIST "%WD%msys-2.0.dll" set "WD=%~dp0usr\bin\"
+</code></pre>
 <p>如果当前目录有 <code class="notranslate">msys-2.0.dll</code>，<code class="notranslate">WD</code> 就是当前目录，否则设置为该脚本所在目录的子目录 <code class="notranslate">usr\bin\</code>。行吧，对于我的情况，其实可以写死为 <code class="notranslate">D:\msys64\usr\bin\</code> 了。其他两个变量再一次按下不表。</p>
 <h3><code class="notranslate">clang64</code></h3>
 <p>第四个参数代表了终端环境，MSYS2 有几个不同的<a href="https://www.msys2.org/docs/environments/" rel="nofollow">环境</a>，这里使用了 <code class="notranslate">Clang x64</code>。</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-v">%~1</span><span class="pl-pds">"</span></span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>x-clang64<span class="pl-pds">"</span></span> shift<span class="pl-k">&amp;</span> <span class="pl-k">set</span> /a <span class="pl-smi">msys2_shiftCounter</span><span class="pl-k">+=</span>1<span class="pl-k">&amp;</span> <span class="pl-k">set</span> <span class="pl-smi">MSYSTEM</span><span class="pl-k">=</span>CLANG64<span class="pl-k">&amp;</span> <span class="pl-k">goto</span> :<span class="pl-k">checkparams</span></pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">if "x%~1" == "x-clang64" shift&amp; set /a msys2_shiftCounter+=1&amp; set MSYSTEM=CLANG64&amp; goto :checkparams
+</code></pre>
 <p>它设置了 <code class="notranslate">MSYSTEM</code> 变量为 <code class="notranslate">CLANG64</code>，这个变量会传递给执行的命令，并影响最终启动的环境。除了这一点，其实这个变量在批处理脚本中还影响了 <code class="notranslate">CONTITLE</code> 和 <code class="notranslate">CONICON</code> 的设置，不过前文 <code class="notranslate">startsh</code> 的分析中，我们得知，它们俩没有被真正使用。</p>
 <h3><code class="notranslate">-shell bash</code></h3>
 <p>最后一个参数设置了启动的 shell 为 bash，它就是 <a href="#startsh"><code class="notranslate">startsh</code></a> 里提到的 <code class="notranslate">LOGINSHELL</code>。</p>
 <h3>还有什么</h3>
 <p>前面我们还剩下一个变量 <code class="notranslate">SHELL_ARGS</code> 没分析，来看看代码</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">set</span> <span class="pl-smi">msys2_full_cmd</span><span class="pl-k">=</span><span class="pl-v">%*</span>
-<span class="pl-k">for</span> /f <span class="pl-s"><span class="pl-pds">"</span>tokens=<span class="pl-smi">%msys2_shiftCounter%</span>,* delims=,;=	 <span class="pl-pds">"</span></span> <span class="pl-v">%%i</span> <span class="pl-k">in</span> (<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">!msys2_full_cmd!</span><span class="pl-pds">"</span></span>) <span class="pl-k">do</span> <span class="pl-k">set</span> <span class="pl-smi">SHELL_ARGS</span><span class="pl-k">=</span><span class="pl-v">%%j</span></pre></div>
+<pre lang="cmd" class="notranslate"><code class="notranslate">set msys2_full_cmd=%*
+for /f "tokens=%msys2_shiftCounter%,* delims=,;=	 " %%i in ("!msys2_full_cmd!") do set SHELL_ARGS=%%j
+</code></pre>
 <p>把所有命令行参数以逗号、分号、等号、制表符、空格为分隔符拆分，将前文未解析的部分通通塞给 <code class="notranslate">SHELL_ARGS</code>，这将作为 bash 的参数。不过我这里的情况，这个变量为空。</p>
 <h2>组合为一条命令</h2>
 <p>将前文分析出的内容结合为一条命令，应该是什么呢？首先，我们希望 bash 退出后可以关闭终端，然后，我们还有环境变量需要传递给 bash，因此最终的配置如下</p>
-<div class="highlight highlight-source-json"><pre class="notranslate"><span class="pl-ent">"commandline"</span>: <span class="pl-s"><span class="pl-pds">"</span>cmd.exe /c <span class="pl-cce">\"</span>set CHERE_INVOKING=enabled_from_arguments &amp;&amp; set MSYSTEM=CLANG64 &amp;&amp; D:<span class="pl-cce">\\</span>msys64<span class="pl-cce">\\</span>usr<span class="pl-cce">\\</span>bin<span class="pl-cce">\\</span>bash.exe -l<span class="pl-cce">\"</span><span class="pl-pds">"</span></span></pre></div>
+<pre lang="json" class="notranslate"><code class="notranslate">"commandline": "cmd.exe /c \"set CHERE_INVOKING=enabled_from_arguments &amp;&amp; set MSYSTEM=CLANG64 &amp;&amp; D:\\msys64\\usr\\bin\\bash.exe -l\""
+</code></pre>
 <p>它使用了 <code class="notranslate">/c</code> 让 <code class="notranslate">cmd</code> 执行之后的命令，结束后退出；在其中设置了我们所需的环境变量，最后启动 <code class="notranslate">bash</code> 登录。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 

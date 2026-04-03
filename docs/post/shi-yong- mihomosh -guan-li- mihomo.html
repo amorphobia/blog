@@ -90,9 +90,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <pre class="notranslate"><code class="notranslate">paru -S mihomo mihomosh
 </code></pre>
 <h3>Windows（scoop）</h3>
-<pre class="notranslate"><code class="notranslate"># mihomosh 尚未收录到 main bucket, 可添加 siku bucket
+<pre class="notranslate"><code class="notranslate"># mihomosh 和 mihomo-v2 尚未收录到 main bucket, 可添加 siku bucket
 scoop bucket add siku https://github.com/amorphobia/siku
 scoop install mihomo mihomosh
+
+# 由于 x86-64 CPU 分层级，部分老旧的 CPU 需要下载特定层级的版本（没错，就是我的）
+scoop install mihomo-v2 mihomosh
 </code></pre>
 <h3>预编译二进制</h3>
 <p>（<a href="https://github.com/MetaCubeX/mihomo/releases">mihomo</a>, <a href="https://github.com/SamuNatsu/mihomosh/releases">mihomosh</a>）下载对应系统的二进制文件后，将其所在路径加入环境变量，便可直接调用。</p>
@@ -127,6 +130,9 @@ scoop install mihomo mihomosh
 <p>根据编辑器中的注释填写内容并保存。如果是订阅，<code class="notranslate">type</code> 应设为 <code class="notranslate">remote</code>。 需要注意，当前版本中用于更新订阅的代理只能设置为 <code class="notranslate">none</code>、<code class="notranslate">system</code> 或 <code class="notranslate">mihomo</code>。如果系统中暂时没有可用代理，订阅下载可能会失败。可以先手动下载订阅文件，再导入使用；之后更新时即可通过内核自身的代理完成。因此这里建议将 <code class="notranslate">proxy</code> 设置为 <code class="notranslate">mihomo</code>。</p>
 <p>外壳默认的配置目录为：</p>
 <pre class="notranslate"><code class="notranslate">$HOME/.local/share/mihomosh/profiles/
+</code></pre>
+<p>Windows 上目录有所不同，在</p>
+<pre class="notranslate"><code class="notranslate">$env:LOCALAPPDATA\SamuNatsu\mihomosh\data
 </code></pre>
 <p>目录中会生成一个 <code class="notranslate">&lt;profile-id&gt;.yaml</code> 文件，即刚创建的配置。若你通过其他方式下载了订阅文件，可以将其保存为 <code class="notranslate">&lt;profile-id&gt;.data.yaml</code>，然后执行：</p>
 <pre class="notranslate"><code class="notranslate">mihomosh profile update &lt;profile-id&gt;

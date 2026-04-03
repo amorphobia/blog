@@ -13,9 +13,12 @@ paru -S mihomo mihomosh
 ### Windows（scoop）
 
 ```
-# mihomosh 尚未收录到 main bucket, 可添加 siku bucket
+# mihomosh 和 mihomo-v2 尚未收录到 main bucket, 可添加 siku bucket
 scoop bucket add siku https://github.com/amorphobia/siku
 scoop install mihomo mihomosh
+
+# 由于 x86-64 CPU 分层级，部分老旧的 CPU 需要下载特定层级的版本（没错，就是我的）
+scoop install mihomo-v2 mihomosh
 ```
 
 ### 预编译二进制
@@ -82,6 +85,12 @@ mihomosh profile create
 
 ```
 $HOME/.local/share/mihomosh/profiles/
+```
+
+Windows 上目录有所不同，在
+
+```
+$env:LOCALAPPDATA\SamuNatsu\mihomosh\data
 ```
 
 目录中会生成一个 `<profile-id>.yaml` 文件，即刚创建的配置。若你通过其他方式下载了订阅文件，可以将其保存为 `<profile-id>.data.yaml`，然后执行：

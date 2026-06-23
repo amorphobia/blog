@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://blog.xuesong.io/post/shi-yong-%20mihomosh%20-guan-li-%20mihomo.html">
 <meta property="og:image" content="https://kvault.xuesong.eu.org/file/BQACAgUAAyEGAATe06RqAAMGaaPPkeCb4FIW1XMcAAEKgevIvTjFAAK8GwACw5ohVYdJvJySYHF7OgQ.svg">
 <title>使用 mihomosh 管理 mihomo</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -104,8 +104,7 @@ scoop install mihomo-v2 mihomosh
 <p>为便于区分，下文将 mihomo 称为“内核”（kernel），mihomosh 称为“外壳”（shell）。</p>
 </blockquote>
 <p>外壳通过内核提供的控制 API 工作，因此需要先启动内核，并开启外部控制。一般可以在 <code class="notranslate">$HOME/.config/mihomo</code> 目录下新建 <code class="notranslate">config.yaml</code>，写入：</p>
-<pre lang="yaml" class="notranslate"><code class="notranslate">external-controller: '127.0.0.1:9090'
-</code></pre>
+<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-ent">external-controller</span>: <span class="pl-s"><span class="pl-pds">'</span>127.0.0.1:9090<span class="pl-pds">'</span></span></pre></div>
 <p>然后使用以下命令启动内核：</p>
 <pre class="notranslate"><code class="notranslate">mihomo -d ~/.config/mihomo
 </code></pre>
@@ -113,19 +112,17 @@ scoop install mihomo-v2 mihomosh
 <pre class="notranslate"><code class="notranslate">mihomosh config edit
 </code></pre>
 <p>根据实际情况修改并保存，例如：</p>
-<pre lang="yaml" class="notranslate"><code class="notranslate">mihomo-path: /home/alp/.config/mihomo/config.yaml
-mihomo-api: http://127.0.0.1:9090
-log-level: info
-mode: rule
-mixed-port: 7890
-allow-lan: true
-</code></pre>
+<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-ent">mihomo-path</span>: <span class="pl-s">/home/alp/.config/mihomo/config.yaml</span>
+<span class="pl-ent">mihomo-api</span>: <span class="pl-s">http://127.0.0.1:9090</span>
+<span class="pl-ent">log-level</span>: <span class="pl-s">info</span>
+<span class="pl-ent">mode</span>: <span class="pl-s">rule</span>
+<span class="pl-ent">mixed-port</span>: <span class="pl-c1">7890</span>
+<span class="pl-ent">allow-lan</span>: <span class="pl-c1">true</span></pre></div>
 <p>需要注意，外壳会覆盖掉 <code class="notranslate">$HOME/.config/mihomo/config.yaml</code>，因此需要在外壳中<a href="https://github.com/SamuNatsu/mihomosh/issues/12#issuecomment-3677838607" data-hovercard-type="issue" data-hovercard-url="/SamuNatsu/mihomosh/issues/12/hovercard">再次设置“外部控制”</a>。执行：</p>
 <pre class="notranslate"><code class="notranslate">mihomosh profile egxc
 </code></pre>
 <p>在打开的编辑器中写入以下内容并保存：</p>
-<pre lang="yaml" class="notranslate"><code class="notranslate">external-controller: '127.0.0.1:9090'
-</code></pre>
+<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-ent">external-controller</span>: <span class="pl-s"><span class="pl-pds">'</span>127.0.0.1:9090<span class="pl-pds">'</span></span></pre></div>
 <h2>添加订阅</h2>
 <p>接下来创建配置（订阅）：</p>
 <pre class="notranslate"><code class="notranslate">mihomosh profile create
